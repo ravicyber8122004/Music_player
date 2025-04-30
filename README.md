@@ -1,4 +1,8 @@
+
 # Interactive Music Player
+<p align="center">
+  <img src="logo.png" alt="Logo" width="500" height="500">
+</p>
 
 An interactive, web-based music player built using **HTML**, **CSS**, and **JavaScript**. This music player offers a modern, dynamic interface with essential features for an engaging and smooth user experience.
 
