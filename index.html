@@ -45,9 +45,21 @@
       transition: background 0.3s;
     }
 
+   
     .controls button:hover {
       background: #00cccc;
     }
+    #seek-bar {
+  width: 100%;
+  margin: 10px 0;
+  appearance: none;
+  height: 5px;
+  background: #444;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
 
     .song-list {
       max-height: 180px;
@@ -75,6 +87,16 @@
       background: #00ffff;
       color: black;
     }
+
+    #time-display {
+  font-size: 14px;
+  color: #fff;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-family: monospace;
+}
+
   </style>
 </head>
 <body>
@@ -82,12 +104,26 @@
 <div class="player">
   <h2>🎧 Music Player</h2>
   <p id="current-song">Now Playing: -</p>
-
+ 
   <div class="controls">
     <button onclick="prevSong()">⏮</button>
     <button onclick="togglePlay()">▶️</button>
     <button onclick="nextSong()">⏭</button>
+  
   </div>
+
+    <!-- Seek Controls -->
+     <div class="controls" style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;"> 
+    <button onclick="seekBackward()">⏪ 10s</button>
+<button onclick="seekForward()">10s ⏩</button>
+</div>
+
+  <!-- Seek Bar -->
+<input type="range" id="seek-bar" value="0" min="0" max="100" step="1" />
+
+<!-- Time Display -->
+<div id="time-display">00:00 / 00:00</div>
+
 
   <div class="song-list" id="song-list">
     <!-- Songs will be injected here -->
@@ -165,6 +201,48 @@
 
   createSongList();
   loadSong(currentIndex);
+
+//   const audio = document.getElementById("audio"); // your audio element
+const seekBar = document.getElementById("seek-bar");
+
+// Update seek bar as the song plays
+audio.addEventListener("timeupdate", () => {
+  const progress = (audio.currentTime / audio.duration) * 100;
+  seekBar.value = progress;
+});
+
+// Seek song when user drags seek bar
+seekBar.addEventListener("input", () => {
+  const seekTo = (seekBar.value / 100) * audio.duration;
+  audio.currentTime = seekTo;
+});
+
+function seekBackward() {
+  const audio = document.getElementById("audio");
+  audio.currentTime = Math.max(0, audio.currentTime - 10);
+}
+
+function seekForward() {
+  const audio = document.getElementById("audio");
+  audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+}
+
+// const audio = document.getElementById("audio");
+const timeDisplay = document.getElementById("time-display");
+
+function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+  return `${minutes}:${seconds}`;
+}
+
+audio.addEventListener("timeupdate", () => {
+  const current = formatTime(audio.currentTime);
+  const total = formatTime(audio.duration || 0);
+  timeDisplay.textContent = `${current} / ${total}`;
+});
+
+
 </script>
 
 </body>
