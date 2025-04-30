@@ -24,7 +24,7 @@ An interactive, web-based music player built using **HTML**, **CSS**, and **Java
 Check out the live demo of the music player:
 [Interactive Music Player Demo](https://ravicyber8122004.github.io/Music_player/)
 
-![Logo](demo.jpg)
+![Logo](demo.png)
 
 
 ## Repository:
